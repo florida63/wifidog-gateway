@@ -95,6 +95,8 @@ typedef enum {
 	oFirewallRuleSet,
 	oTrustedMACList,
 	oOwner,
+	oLat,
+	oLon,
 	oHtmlMessageFile,
 	oProxyPort,
 } OpCodes;
@@ -137,6 +139,8 @@ static const struct {
 	{ "trustedmaclist",		oTrustedMACList },
 	{ "proprietary",		oOwner },
 	{ "owner",			oOwner },
+	{ "lat",			oLat },
+	{ "lon",			oLon },
 	{ "htmlmessagefile",		oHtmlMessageFile },
 	{ "proxyport",			oProxyPort },
 	{ NULL,				oBadOption },
@@ -188,6 +192,8 @@ config_init(void)
 	config.rulesets = NULL;
 	config.trustedmaclist = NULL;
 	config.owner = NULL;
+	config.lat = "0";
+	config.lon = "0";
 	config.proxy_port = 0;
 }
 
@@ -727,6 +733,12 @@ config_read(const char *filename)
 					break;
 				case oOwner:
 					config.owner = safe_strdup(p1);
+					break;
+				case oLat:
+					config.lat = safe_strdup(p1);
+					break;
+				case oLon:
+					config.lon = safe_strdup(p1);
 					break;
 				case oHTTPDMaxConn:
 					sscanf(p1, "%d", &config.httpdmaxconn);

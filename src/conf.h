@@ -62,6 +62,7 @@
 #define DEFAULT_AUTHSERVSSLAVAILABLE 0
 /** Note:  The path must be prefixed by /, and must be suffixed /.  Put / for the server root.*/
 #define DEFAULT_AUTHSERVPATH "/wifidog/"
+#define DEFAULT_NETWORK "default-network"
 #define DEFAULT_AUTHSERVLOGINPATHFRAGMENT "login/?"
 #define DEFAULT_AUTHSERVPORTALPATHFRAGMENT "portal/?"
 #define DEFAULT_AUTHSERVMSGPATHFRAGMENT "gw_message.php?"
@@ -163,6 +164,7 @@ typedef struct {
     int syslog_facility;	/**< @brief facility to use when using syslog for
 				     logging */
     char *owner;
+    char *network;		/**< @brief Name of network */
     char *lat;
     char *lon;
     int proxy_port;		/**< @brief Transparent proxy port (0 to disable) */

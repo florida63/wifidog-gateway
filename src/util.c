@@ -474,6 +474,9 @@ get_ext_iface(void)
 		snprintf((buffer + len), (sizeof(buffer) - len), "Owner: %s\n", config_get_config()->owner);
 		len = strlen(buffer);
 
+		snprintf((buffer + len), (sizeof(buffer) - len), "Network : %s\n", config_get_config()->network);
+		len = strlen(buffer);
+
 		snprintf((buffer + len), (sizeof(buffer) - len), "Clients served this session: %lu\n\n", served_this_session);
 		len = strlen(buffer);
 

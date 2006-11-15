@@ -154,7 +154,7 @@ ping(void)
 	 * Prep & send request
 	 */
 	snprintf(request, sizeof(request) - 1,
-			"GET %s%sgw_id=%s&sys_uptime=%lu&sys_memfree=%u&sys_load=%.2f&wifidog_uptime=%lu&prop=%s&lat=%s&lon=%s HTTP/1.0\r\n"
+			"GET %s%sgw_id=%s&sys_uptime=%lu&sys_memfree=%u&sys_load=%.2f&wifidog_uptime=%lu&prop=%s&network_id=%s&lat=%s&lon=%s HTTP/1.0\r\n"
 			"User-Agent: WiFiDog %s\r\n"
 			"Host: %s\r\n"
 			"\r\n",
@@ -166,6 +166,7 @@ ping(void)
 			sys_load,
 			(long unsigned int)((long unsigned int)time(NULL) - (long unsigned int)started_time),
 			config_get_config()->owner,
+			config_get_config()->network,
 			config_get_config()->lat,
 			config_get_config()->lon,			
 			VERSION,

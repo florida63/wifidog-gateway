@@ -471,6 +471,9 @@ get_ext_iface(void)
 		snprintf((buffer + len), (sizeof(buffer) - len), "Auth server reachable: %s\n", (is_auth_online() ? "yes" : "no"));
 		len = strlen(buffer);
 
+		snprintf((buffer + len), (sizeof(buffer) - len), "Proprietary: %s\n", config_get_config()->Proprietary);
+		len = strlen(buffer);
+
 		snprintf((buffer + len), (sizeof(buffer) - len), "Clients served this session: %lu\n\n", served_this_session);
 		len = strlen(buffer);
 

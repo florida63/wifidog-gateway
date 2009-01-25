@@ -165,7 +165,7 @@ ping(void)
 			sys_memfree,
 			sys_load,
 			(long unsigned int)((long unsigned int)time(NULL) - (long unsigned int)started_time),
-			config_get_config()->proprietary,
+			config_get_config()->owner,
 			VERSION,
 			auth_server->authserv_hostname);
 

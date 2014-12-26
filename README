@@ -2,7 +2,8 @@
 # $Id$
 #
 
-Cette version de wifidog-gateway est spécifique au serveur d'authentification de france wireless. 
+Cette version de Wifidog-Gateway est spécifique au serveur d'authentification de France Wireless.
+Attention certaines options ne sont pas comptatible avec authpuppy ou wifidog.
 
 The WiFi Guard Dog project is a complete and embeddable captive portal
 solution for wireless community groups or individuals who wish to open a

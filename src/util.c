@@ -436,7 +436,7 @@ get_ext_iface(void)
 		t_trusted_mac *p;
 
 		len = 0;
-		snprintf(buffer, (sizeof(buffer) - len), "WiFiDog status\n\n");
+		snprintf(buffer, (sizeof(buffer) - len), "WiFiDog-FFW status\n\n");
 		len = strlen(buffer);
 
 		uptime = time(NULL) - started_time;

@@ -194,7 +194,7 @@ config_init(void)
 	config.rulesets = NULL;
 	config.trustedmaclist = NULL;
 	config.owner = NULL;
-	config.Network = DEFAULT_NETWORK;
+	config.network = DEFAULT_NETWORK;
 	config.lat = "0";
 	config.lon = "0";
 	config.proxy_port = 0;

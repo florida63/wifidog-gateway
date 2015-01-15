@@ -162,7 +162,7 @@ static OpCodes config_parse_token(const char *cp, const char *filename, int line
 s_config *
 config_get_config(void)
 {
-    return &config;
+	return &config;
 }
 
 /** Sets the default config parameters and initialises the configuration system */
@@ -206,7 +206,7 @@ config_init(void)
 void
 config_init_override(void)
 {
-    if (config.daemon == -1) config.daemon = DEFAULT_DAEMON;
+	if (config.daemon == -1) config.daemon = DEFAULT_DAEMON;
 }
 
 /** @internal

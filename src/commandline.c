@@ -93,7 +93,7 @@ void parse_commandline(int argc, char **argv) {
 	i=0;
 	restartargv[i++] = safe_strdup(argv[0]);
 
-    while (-1 != (c = getopt(argc, argv, "c:hfd:sw:vx:i:"))) {
+    while (-1 != (c = getopt(argc, argv, "c:hfd:sw:vi:64"))) {
 
 		skiponrestart = 0;
 
@@ -154,6 +154,16 @@ void parse_commandline(int argc, char **argv) {
 					config->internal_sock = safe_strdup(optarg);
 				}
 				break;
+
+            case '4':
+                config->ip6 = 0;
+                break;
+
+            case '6':
+                printf("IPv6 is not supported yet\n");
+                exit(1);
+                config->ip6 = 1;
+                break;
 
 			default:
 				usage();

@@ -97,14 +97,22 @@ iptables_do_command(const char *format, ...)
 	va_list vlist;
 	char *fmt_cmd;
 	char *cmd;
-	int rc;
+    s_config *config;
+    int rc;
 
 	va_start(vlist, format);
 	safe_vasprintf(&fmt_cmd, format, vlist);
 	va_end(vlist);
 
-	safe_asprintf(&cmd, "iptables %s", fmt_cmd);
-	free(fmt_cmd);
+    config = config_get_config();
+
+    if(config->ip6) {
+        safe_asprintf(&cmd, "ip6tables %s", fmt_cmd);
+    } else {
+        safe_asprintf(&cmd, "iptables %s", fmt_cmd);
+    }
+
+    free(fmt_cmd);
 
 	iptables_insert_gateway_id(&cmd);
 

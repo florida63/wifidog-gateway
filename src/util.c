@@ -41,6 +41,7 @@
 #include <netinet/in.h>
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
+#include <ifaddrs.h>
 
 #include <netinet/in.h>
 #include <net/if.h>
@@ -151,45 +152,59 @@ wd_gethostbyname(const char *name)
 	char *
 get_iface_ip(const char *ifname)
 {
-	struct ifreq if_data;
-	struct in_addr in;
-	char *ip_str;
-	int sockd;
-	u_int32_t ip;
+    char addrbuf[INET6_ADDRSTRLEN+1];
+    const struct ifaddrs *cur;
+    struct ifaddrs *addrs;
+    s_config *config;
+    int sockd;
 
 	/* Create a socket */
-	if ((sockd = socket (AF_INET, SOCK_RAW, htons(0x8086))) < 0) {
-		debug(LOG_ERR, "socket(): %s", strerror(errno));
-		return NULL;
+    if(getifaddrs(&addrs) < 0) {		
+        debug(LOG_ERR, "getifaddrs(): %s", strerror(errno));
+        return NULL;
 	}
 
-	/* Get IP of internal interface */
-	strcpy (if_data.ifr_name, ifname);
+    config = config_get_config();
 
-	/* Get the IP address */
-	if (ioctl (sockd, SIOCGIFADDR, &if_data) < 0) {
-		debug(LOG_ERR, "ioctl(): SIOCGIFADDR %s", strerror(errno));
-		return NULL;
-	}
-	memcpy ((void *) &ip, (void *) &if_data.ifr_addr.sa_data + 2, 4);
-	in.s_addr = ip;
+    /* Set default address */
+    sprintf(addrbuf, config->ip6 ? "::" : "0.0.0.0");
 
-	ip_str = inet_ntoa(in);
-	close(sockd);
-	return safe_strdup(ip_str);
+    /* Iterate all interfaces */
+    cur = addrs;
+    while(cur != NULL) {
+        if( (cur->ifa_addr != NULL) && (strcmp( cur->ifa_name, ifname ) == 0) ) {
+            if(config->ip6 && cur->ifa_addr->sa_family == AF_INET6) {
+                inet_ntop(AF_INET6, &((struct sockaddr_in6 *)cur->ifa_addr)->sin6_addr, addrbuf, sizeof(addrbuf));
+                break;
+            }
+
+            if(!config->ip6 && cur->ifa_addr->sa_family == AF_INET) {
+                inet_ntop(AF_INET, &((struct sockaddr_in *)cur->ifa_addr)->sin_addr, addrbuf, sizeof(addrbuf));
+            break;
+            }
+        }
+
+        cur = cur->ifa_next;
+    }
+
+    freeifaddrs(addrs);
+
+    return safe_strdup(addrbuf);
 }
 
 	char *
 get_iface_mac(const char *ifname)
 {
 	int r, s;
-	struct ifreq ifr;
+    s_config *config;
+    struct ifreq ifr;
 	char *hwaddr, mac[13];
 
+    config = config_get_config();
 	strcpy(ifr.ifr_name, ifname);
 
-	s = socket(AF_INET, SOCK_DGRAM, 0);
-	if (-1 == s) {
+    s = socket(config->ip6 ? AF_INET6 : AF_INET, SOCK_DGRAM, 0);
+    if (-1 == s) {
 		debug(LOG_ERR, "get_iface_mac socket: %s", strerror(errno));
 		return NULL;
 	}

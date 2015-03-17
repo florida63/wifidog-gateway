@@ -193,6 +193,7 @@ config_init(void)
 	config.proxy_port = 0;
 	config.ssl_certs = safe_strdup(DEFAULT_AUTHSERVSSLCERTPATH);
 	config.ssl_verify = DEFAULT_AUTHSERVSSLPEERVER;
+    config.ip6 = DEFAULT_IP6;
 }
 
 /**
